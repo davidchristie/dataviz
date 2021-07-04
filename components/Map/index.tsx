@@ -19,9 +19,9 @@ export interface MapProps {
 export function Map({ events }: MapProps) {
   const [viewport, setViewport] = useState<Viewport
   >({
-    latitude: -36.850109,
-    longitude: 174.7677,
-    zoom: 8
+    latitude: 0,
+    longitude: 0,
+    zoom: 1
   });
   return (
     <div className={styles.map}>

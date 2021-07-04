@@ -1,20 +1,15 @@
+import { addMonths } from "date-fns";
 import type { NextApiRequest, NextApiResponse } from "next";
+import { getData } from "../../datasources/random";
 import { Data, Event } from "../../types";
+
+function random(min: number, max: number) {
+  return (max - min) * Math.random() + min;
+}
 
 export default function handler(
   request: NextApiRequest,
   response: NextApiResponse<Data>
 ) {
-  const events: Event[] = [
-    {
-      id: "event1",
-      name: "Event 1",
-      description: "Some information about event 1.",
-      startTime: "2020-01-05",
-      endTime: "2020-08-14",
-      latitude: -36.850109,
-      longitude: 174.7677,
-    },
-  ];
-  response.status(200).json({ events });
+  response.status(200).json(getData());
 }

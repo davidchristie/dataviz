@@ -1,8 +1,13 @@
+import { isBefore } from 'date-fns'
 import Head from 'next/head'
 import Image from 'next/image'
+import { useState } from 'react'
 import { Map } from '../components/Map'
+import { Interval, TimelineRangeSlider } from '../components/TimelineRangeSlider'
 import { useData } from '../hooks/useData'
 import styles from '../styles/Home.module.css'
+
+const timelineInterval: Interval = [new Date("2000-01-01"), new Date()]
 
 function Footer() {
   return (
@@ -23,7 +28,8 @@ function Footer() {
 
 export default function Home() {
   const { data, error } = useData()
-
+  const [selectedInterval, setSelectedInterval] = useState<Interval>(timelineInterval)
+  const [selectedIntervalStart, selectedIntervalEnd] = selectedInterval
   return (
     <div className={styles.container}>
       <Head>
@@ -37,10 +43,20 @@ export default function Home() {
           <div>Error! {error.message}</div>
         )}
         {data ? (
-          <Map events={data.events} />
+          <Map
+            events={data.events.filter(event => (
+              isBefore(selectedIntervalStart, new Date(event.startTime)) &&
+              isBefore(new Date(event.endTime), selectedIntervalEnd)
+            ))}
+          />
         ) : (
           <div>Loading...</div>
         )}
+        <TimelineRangeSlider
+          selectedInterval={selectedInterval}
+          timelineInterval={timelineInterval}
+          onSelectedIntervalChange={setSelectedInterval}
+        />
       </main>
       <Footer />
     </div>

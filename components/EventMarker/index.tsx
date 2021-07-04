@@ -21,7 +21,7 @@ export function EventMarker({ event, zoom }: EventMarkerProps) {
     >
       <div className={styles.event}>
         <div className={styles.dot} />
-        {zoom > 8 && (
+        {zoom > 4 && (
           <div className={styles.info}>
             <div className={styles.title}>{event.name}</div>
             <div>{event.description}</div>
